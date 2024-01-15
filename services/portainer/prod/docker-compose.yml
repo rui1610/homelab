@@ -1,0 +1,33 @@
+version: '3.3'
+
+#volumes:
+  # vol_portainer:
+  #   driver: local
+  #   driver_opts:
+  #     type: nfs
+  #     o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
+  #     device: :${NFS_PATH_DOCKER_VOLUMES}/portainer
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    privileged: true
+    hostname: portainer
+    restart: unless-stopped
+    volumes:
+      #- vol_portainer:/data:z
+      - /opt/docker/portainer:/data:z
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8000:8000
+      - 9000:9000
+      - 9443:9443
+    environment:
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache

@@ -1,0 +1,29 @@
+version: '3.3'
+
+volumes:
+  vol_vaultwarden:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
+      device: :${NFS_PATH_DOCKER_VOLUMES}/vaultwarden
+
+services:
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    hostname: vaultwarden
+    restart: unless-stopped
+    volumes:
+      - vol_vaultwarden:/data
+    ports:
+      - ${PORT_VAULTWARDEN}:80
+    environment:
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache
