@@ -22,7 +22,7 @@ resource "proxmox_lxc" "basic" {
     fuse    = true
     nesting = true
     keyctl  = true
-    mount   = "nfs;cifs"
+    # mount   = "nfs;cifs"
   }
 
   network {
