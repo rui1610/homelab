@@ -1,0 +1,11 @@
+# Terraform specific local files
+.terraform*
+terraform.tfstate*
+*.log
+secret.auto.tfvars
+terraform.tfvars
+
+# Generic local files
+.env
+.embeddings.db
+my_credentials.*

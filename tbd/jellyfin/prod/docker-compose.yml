@@ -1,0 +1,84 @@
+version: '3.3'
+
+volumes:
+  vol_jellyfin_config:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
+      device: :${NFS_PATH_DOCKER_VOLUMES}/jellyfin/config
+  vol_jellyfin_cache:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
+      device: :${NFS_PATH_DOCKER_VOLUMES}/jellyfin/cache
+
+  # CIFS (Samba) volumes to provide the SMB shares to the containers
+  vol_media_movies:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_MOVIES}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_tvrecordings:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVRECORDINGS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_familyvideos:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_FAMILY_VIDEOS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_tvshows:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVSHOWS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    hostname: jellyfin
+    restart: unless-stopped
+    #network_mode: host
+    ports:
+      - "8096:8096" # HTTP Port    
+    volumes:
+      - type: volume
+        source: vol_media_movies
+        target: /media/movies
+      - type: volume
+        source: vol_media_familyvideos
+        target: /media/familyvideos
+      - type: volume
+        source: vol_media_tvrecordings
+        target: /media/tvrecordings
+      - type: volume
+        source: vol_media_tvshows
+        target: /media/tvshows
+      - type: volume
+        source: vol_jellyfin_config
+        target: /config:z
+        volume:
+          nocopy: true
+      - type: volume
+        source: vol_jellyfin_cache
+        target: /cache:z
+        volume:
+          nocopy: true
+    environment:
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/cache
+
+

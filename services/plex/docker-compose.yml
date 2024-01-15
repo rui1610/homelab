@@ -1,0 +1,73 @@
+version: '3.8'
+
+volumes:
+  # NFS Volumes to store data from the containers
+  vol_plex:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
+      device: :${NFS_PATH_DOCKER_VOLUMES}/plex
+
+  # CIFS (Samba) volumes to provide the SMB shares to the containers
+  vol_media_movies:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_MOVIES}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_tvrecordings:
+    driver: local
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVRECORDINGS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  # vol_media_familyvideos:
+  #   driver: local
+  #   driver_opts:
+  #     type: cifs
+  #     device: "${HOST_PATH_FAMILY_VIDEOS}"
+  #     o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  # vol_media_tvshows:
+  #   driver: local
+  #   driver_opts:
+  #     type: cifs
+  #     device: "${HOST_PATH_TVSHOWS}"
+  #     o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+
+services:
+
+  plex:
+    image: linuxserver/plex:latest
+    container_name: plex
+    hostname: plex
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - type: volume
+        source: vol_plex
+        target: /config:z
+        volume:
+          nocopy: true    
+      - type: volume
+        source: vol_media_movies
+        target: /media/movies
+      # - type: volume
+      #   source: vol_media_familyvideos
+      #   target: /media/familyvideos
+      - type: volume
+        source: vol_media_tvrecordings
+        target: /media/tvrecordings
+      # - type: volume
+      #   source: vol_media_tvshows
+      #   target: /media/tvshows
+    environment:
+      - TZ="${TIMEZONE}"
+      - VERSION=docker
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - S6_READ_ONLY_ROOT=1
+    # removed "/run" from tmpfs, because id caused problems with the plex container (https://github.com/just-containers/s6-overlay/issues/397)
+    tmpfs:
+      - /tmp
+      - /var/cache
