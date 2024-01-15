@@ -54,6 +54,8 @@ apt install -y terraform
 # ----------------------------------------------------------------------------------------------------------------
 # Give rui user rights to run docker and make him sudo
 # ----------------------------------------------------------------------------------------------------------------
+# add a group with id 1000
+groupadd -g 1000 lxc_cnt
 adduser rui --gecos "" --uid 1000 --gid 1000 --disabled-password
 usermod -aG sudo rui
 echo "rui  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/rui
