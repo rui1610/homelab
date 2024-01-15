@@ -58,4 +58,4 @@ adduser rui --gecos "" --uid 1000 --gid 1000 --disabled-password
 usermod -aG sudo rui
 echo "rui  ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/rui
 
-# don't forget to set the password for user rui! though the command 'passwd rui'  
+echo Do not forget to set the password for user rui! though the command **passwd rui** !!
