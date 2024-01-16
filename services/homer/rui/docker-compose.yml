@@ -2,24 +2,25 @@ version: '3.3'
 
 volumes:
   # NFS Volumes to store data from the containers
-  vol_homer:
+  vol_homer_rui:
     driver: local
+    name: vol_homer_rui
     driver_opts:
-      type: nfs
-      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
-      device: :${NFS_PATH_DOCKER_VOLUMES}/homer
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":/dockervolumes/homer_rui"
 
 services:
 
   homer:
     image: b4bz/homer:latest
-    container_name: homer
-    hostname: homer
+    container_name: homer_rui
+    hostname: homer_rui
     user: ${PUID}:${PGID}
     restart: unless-stopped
     volumes:
       - type: volume
-        source: vol_homer
+        source: vol_homer_rui
         target: /www/assets
         volume:
           nocopy: true
@@ -36,4 +37,3 @@ services:
       - /run
       - /tmp
       - /var/cache
-
