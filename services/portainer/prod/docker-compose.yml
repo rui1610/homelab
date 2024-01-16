@@ -19,7 +19,7 @@ services:
     volumes:
       - type: volume
         source: vol_portainer
-        target: /data:z
+        target: /data
         volume:
           nocopy: true    
       #- vol_portainer:/data:z
