@@ -11,7 +11,6 @@ volumes:
       device: ":/dockervolumes/homer_rui"
 
 services:
-
   homer:
     image: b4bz/homer:latest
     container_name: homer_rui
