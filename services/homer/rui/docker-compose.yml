@@ -15,7 +15,7 @@ services:
     image: b4bz/homer:latest
     container_name: homer_rui
     hostname: homer_rui
-    user: ${PUID}:${PGID}
+    #user: ${PUID}:${PGID}
     restart: unless-stopped
     volumes:
       - type: volume
@@ -27,9 +27,9 @@ services:
       - ${PORT_HOMER}:8080
     environment:
       - TZ="${TIMEZONE}"
-      #- INIT_ASSETS=0
-      #- PUID=${PUID}
-      #- PGID=${PGID}
+      - INIT_ASSETS=0
+      - PUID=${PUID}
+      - PGID=${PGID}
     # Write all logs to the ram.
     # The data stored in the specified directory will be stored in the host system's memory (RAM), and it will be cleared when the container stops
     tmpfs:
