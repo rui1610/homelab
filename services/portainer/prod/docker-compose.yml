@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 volumes:
   vol_portainer:
@@ -6,8 +6,8 @@ volumes:
     name: vol_portainer
     driver_opts:
       type: "nfs"
-      o: "addr=${NAS_IP_ADDRESS},rw,nolock,soft,nfsvers=4"
-      device: ":/export/dockervolumes"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":/dockervolumes"
 
 services:
   portainer:
