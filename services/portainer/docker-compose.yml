@@ -5,8 +5,8 @@ volumes:
     driver: local
     driver_opts:
       type: "nfs"
-      o: addr=${NAS_IP_ADDRESS},rw,nolock,soft,nfsvers=4  
-      device: ":/export/portainer"
+      o: addr=${NAS_IP_ADDRESS},rw,nolock,soft
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/portainer"
 
 services:
   portainer:
