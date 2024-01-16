@@ -7,7 +7,7 @@ volumes:
     driver_opts:
       type: "nfs"
       o: addr=${NAS_IP_ADDRESS},rw,nolock,soft
-      device: ":/portainer"
+      device: ":/export/dockervolumes/portainer"
 
 services:
   portainer:
