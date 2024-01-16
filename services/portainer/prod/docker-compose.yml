@@ -3,6 +3,7 @@ version: '3.3'
 volumes:
   vol_portainer:
     driver: local
+    name: vol_portainer
     driver_opts:
       type: "nfs"
       o: addr=${NAS_IP_ADDRESS},rw,nolock,soft
