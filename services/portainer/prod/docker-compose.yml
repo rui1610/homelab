@@ -5,7 +5,7 @@ volumes:
     driver: local
     driver_opts:
       type: "nfs"
-      o: "addr=${NAS_IP_ADDRESS},nolock,soft,rw"
+      o: addr=${NAS_IP_ADDRESS},rw,nolock,soft,nfsvers=4  
       device: ":/export/portainer"
 
 services:
@@ -18,7 +18,7 @@ services:
     volumes:
       - type: volume
         source: vol_portainer
-        target: /data
+        target: /data:z
         volume:
           nocopy: true    
       #- vol_portainer:/data:z
