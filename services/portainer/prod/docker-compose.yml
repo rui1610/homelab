@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
     volumes:
       - vol_portainer:/data:z
-      - /opt/docker/portainer:/data:z
+      #- /opt/docker/portainer:/data:z
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 8000:8000
