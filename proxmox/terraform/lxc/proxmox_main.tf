@@ -4,7 +4,7 @@ resource "proxmox_lxc" "basic" {
   description  = "Basic LXC Container for docker containers"
   ostemplate   = "local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst"
   password     = var.password_lxc_cnt
-  unprivileged = true
+  unprivileged = false
   cores        = var.cores
   memory       = var.memory
   swap         = var.swap
@@ -21,7 +21,7 @@ resource "proxmox_lxc" "basic" {
   features {
     fuse    = true
     nesting = true
-    keyctl  = true
+    #keyctl  = true
     # mount   = "nfs;cifs"
   }
 

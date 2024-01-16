@@ -1,12 +1,13 @@
-version: '3.3'
+version: '3.8'
 
-#volumes:
-  # vol_portainer:
-  #   driver: local
-  #   driver_opts:
-  #     type: nfs
-  #     o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
-  #     device: :${NFS_PATH_DOCKER_VOLUMES}/portainer
+volumes:
+  vol_portainer:
+    driver: local
+    name: vol_portainer
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":/dockervolumes/portainer"
 
 services:
   portainer:
@@ -16,8 +17,11 @@ services:
     hostname: portainer
     restart: unless-stopped
     volumes:
-      #- vol_portainer:/data:z
-      - /opt/docker/portainer:/data:z
+      - type: volume
+        source: vol_portainer
+        target: /data
+        volume:
+          nocopy: true    
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 8000:8000
