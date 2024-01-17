@@ -1,9 +1,9 @@
 version: '3.8'
 
 volumes:
-  vol_vaultwarden_prod:
+  vol_vaultwarden_dev:
     driver: local
-    name: vol_vaultwarden_prod
+    name: vol_vaultwarden_dev
     driver_opts:
       type: "nfs"
       o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     volumes:
       - type: volume
-        source: vol_vaultwarden_prod
+        source: vol_vaultwarden_dev
         target: /data
         volume:
           nocopy: true    
