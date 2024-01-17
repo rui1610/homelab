@@ -1,18 +1,21 @@
 version: '3.3'
 
 volumes:
-  vol_jellyfin_config:
+
+  vol_jellyfin_prod_config:
     driver: local
+    name: vol_jellyfin_prod_config
     driver_opts:
-      type: nfs
-      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
-      device: :${NFS_PATH_DOCKER_VOLUMES}/jellyfin/config
-  vol_jellyfin_cache:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/jellyfin/config"
+  vol_jellyfin_prod_cache:
     driver: local
+    name: vol_jellyfin_prod_cache
     driver_opts:
-      type: nfs
-      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
-      device: :${NFS_PATH_DOCKER_VOLUMES}/jellyfin/cache
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/jellyfin/cache"
 
   # CIFS (Samba) volumes to provide the SMB shares to the containers
   vol_media_movies:
@@ -43,8 +46,8 @@ volumes:
 services:
   jellyfin:
     image: jellyfin/jellyfin:latest
-    container_name: jellyfin
-    hostname: jellyfin
+    container_name: jellyfin_prod
+    hostname: jellyfin_prod
     restart: unless-stopped
     #network_mode: host
     ports:
@@ -63,12 +66,12 @@ services:
         source: vol_media_tvshows
         target: /media/tvshows
       - type: volume
-        source: vol_jellyfin_config
+        source: vol_jellyfin_prod_config
         target: /config:z
         volume:
           nocopy: true
       - type: volume
-        source: vol_jellyfin_cache
+        source: vol_jellyfin_prod_cache
         target: /cache:z
         volume:
           nocopy: true

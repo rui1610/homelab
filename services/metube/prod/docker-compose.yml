@@ -1,11 +1,12 @@
 version: '3.3'
 
 volumes:
-  vol_media_tvrecordings:
+  vol_media_youtube:
     driver: local
+    name: vol_media_youtube
     driver_opts:
       type: cifs
-      device: "${HOST_PATH_TVRECORDINGS}"
+      device: "${HOST_PATH_YOUTUBE}"
       o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
 services:
   metube:
@@ -14,7 +15,9 @@ services:
     hostname: metube
     restart: unless-stopped
     volumes:
-      - ${HOST_PATH_TVRECORDINGS}/youtube:/downloads
+      - type: volume
+        source: vol_media_youtube
+        target: /downloads
     ports:
       - ${PORT_METUBE}:8081
     environment:
