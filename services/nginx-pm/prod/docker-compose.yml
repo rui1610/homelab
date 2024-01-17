@@ -1,0 +1,37 @@
+version: '3.8'
+
+volumes:
+  vol_nginxpm_data_prod:
+    driver: local
+    name: vol_nginxpm_data_prod
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/nginx_pm/prod/data"
+  vol_nginxpm_letsencrypt_prod:
+    driver: local
+    name: vol_nginxpm_letsencrypt_prod
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/nginx_pm/prod/letsencrypt"
+
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443'
+    volumes:
+      - type: volume
+        source: vol_nginxpm_data_prod
+        target: /data
+        volume:
+          nocopy: true    
+      - type: volume
+        source: vol_nginxpm_letsencrypt_prod
+        target: /etc/letsencrypt
+        volume:
+          nocopy: true    
