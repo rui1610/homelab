@@ -13,28 +13,32 @@ volumes:
   # CIFS (Samba) volumes to provide the SMB shares to the containers
   vol_media_movies:
     driver: local
+    name: vol_media_movies
     driver_opts:
       type: cifs
       device: "${HOST_PATH_MOVIES}"
       o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
   vol_media_tvrecordings:
     driver: local
+    name: vol_media_tvrecordings
     driver_opts:
       type: cifs
       device: "${HOST_PATH_TVRECORDINGS}"
       o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
-  # vol_media_familyvideos:
-  #   driver: local
-  #   driver_opts:
-  #     type: cifs
-  #     device: "${HOST_PATH_FAMILY_VIDEOS}"
-  #     o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
-  # vol_media_tvshows:
-  #   driver: local
-  #   driver_opts:
-  #     type: cifs
-  #     device: "${HOST_PATH_TVSHOWS}"
-  #     o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_familyvideos:
+    driver: local
+    name: vol_media_familyvideos
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_FAMILY_VIDEOS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+  vol_media_tvshows:
+    driver: local
+    name: vol_media_tvshows
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVSHOWS}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
 
 services:
 
@@ -53,15 +57,15 @@ services:
       - type: volume
         source: vol_media_movies
         target: /media/movies
-      # - type: volume
-      #   source: vol_media_familyvideos
-      #   target: /media/familyvideos
+      - type: volume
+        source: vol_media_familyvideos
+        target: /media/familyvideos
       - type: volume
         source: vol_media_tvrecordings
         target: /media/tvrecordings
-      # - type: volume
-      #   source: vol_media_tvshows
-      #   target: /media/tvshows
+      - type: volume
+        source: vol_media_tvshows
+        target: /media/tvshows
     environment:
       - TZ="${TIMEZONE}"
       - VERSION=docker
