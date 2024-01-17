@@ -6,7 +6,7 @@ volumes:
     name: vol_media_youtube
     driver_opts:
       type: cifs
-      device: "${HOST_PATH_YOUTUBE}"
+      device: "${HOST_PATH_TVRECORDINGS}/youtube"
       o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
 services:
   metube:
