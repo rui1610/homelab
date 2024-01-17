@@ -1,12 +1,13 @@
-version: '3.3'
+version: '3.8'
 
 volumes:
-  vol_vaultwarden:
+  vol_vaultwarden_prod:
     driver: local
+    name: vol_vaultwarden_prod
     driver_opts:
-      type: nfs
-      o: addr=${NAS_IP_ADDRESS},nolock,soft,rw
-      device: :${NFS_PATH_DOCKER_VOLUMES}/vaultwarden
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/vaultwarden"
 
 services:
 
@@ -16,7 +17,11 @@ services:
     hostname: vaultwarden
     restart: unless-stopped
     volumes:
-      - vol_vaultwarden:/data
+      - type: volume
+        source: vol_vaultwarden_prod
+        target: /data
+        volume:
+          nocopy: true    
     ports:
       - ${PORT_VAULTWARDEN}:80
     environment:
