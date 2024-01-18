@@ -30,7 +30,8 @@ services:
         source: vol_mediathek_prod
         target: /config
         volume:
-          nocopy: true            
+          nocopy: true
+      - /run:/run       
 
     ports:
       - ${PORT_MEDIATHEK}:5800
