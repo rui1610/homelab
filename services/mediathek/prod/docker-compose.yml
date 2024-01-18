@@ -1,0 +1,32 @@
+version: '3.8'
+
+volumes:
+  vol_media_tv:
+    driver: local
+    name: vol_media_tv
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVRECORDINGS}/tv"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+services:
+  mediathek:
+    image: conrad784/mediathekview-webinterface:latest
+    container_name: mediathek
+    hostname: mediathek
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: vol_media_tv
+        target: /output
+      - /tmp/mediathek_config:/config:rw
+
+    ports:
+      - ${PORT_MEDIATHEK}:5800
+    environment:
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - KEEP_APP_RUNNING=1
+
+    tmpfs:
+      - /var/cache
