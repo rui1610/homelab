@@ -31,7 +31,7 @@ services:
         target: /config
         volume:
           nocopy: true
-      - /run:/run       
+      - ./:/run   
 
     ports:
       - ${PORT_MEDIATHEK}:5800
