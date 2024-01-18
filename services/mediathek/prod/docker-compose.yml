@@ -22,7 +22,6 @@ services:
     container_name: mediathek
     hostname: mediathek
     restart: unless-stopped
-    user: ${PUID}:${PGID}
     volumes:
       - type: volume
         source: vol_media_tv
@@ -37,8 +36,8 @@ services:
       - ${PORT_MEDIATHEK}:5800
     environment:
       - TZ="${TIMEZONE}"
-      #- PUID=${PUID}
-      #- PGID=${PGID}
+      - PUID=${PUID}
+      - PGID=${PGID}
     tmpfs:
       - /run
       - /tmp
