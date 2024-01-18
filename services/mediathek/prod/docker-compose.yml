@@ -25,10 +25,12 @@ services:
     volumes:
       - type: volume
         source: vol_media_tv
-        target: /output:rw
+        target: /output:z
       - type: volume
         source: vol_mediathek_prod
-        target: /config:rw
+        target: /config
+        volume:
+          nocopy: true            
 
     ports:
       - ${PORT_MEDIATHEK}:5800
