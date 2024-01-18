@@ -25,7 +25,7 @@ services:
     volumes:
       - type: volume
         source: vol_media_tv
-        target: /output:z
+        target: /output:rw
       - type: volume
         source: vol_mediathek_prod
         target: /config
