@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
     volumes:
       - type: volume
-        source: $HOME/.mediathek3
+        source: vol_media_tv
         target: /root/MediathekView:rw
       - /tmp/mediathek_config:/config:rw
 
