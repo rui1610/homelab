@@ -25,7 +25,7 @@ services:
     volumes:
       - type: volume
         source: vol_media_tv
-        target: /output:rw
+        target: /root/MediathekView:rw
       - type: volume
         source: vol_mediathek_prod
         target: /config:rw
@@ -36,6 +36,3 @@ services:
       - TZ="${TIMEZONE}"
       - PUID=${PUID}
       - PGID=${PGID}
-    tmpfs:
-      - /tmp
-      - /var/cache
