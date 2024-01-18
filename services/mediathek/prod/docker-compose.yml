@@ -26,8 +26,8 @@ services:
       - type: volume
         source: vol_media_tv
         target: /output:rw
-      - type: vol_mediathek_prod
-        source: vol_media_tv
+      - type: volume
+        source: vol_mediathek_prod
         target: /config:rw
 
     ports:
