@@ -31,7 +31,6 @@ services:
         target: /config
         volume:
           nocopy: true
-      - ./:/run   
 
     ports:
       - ${PORT_MEDIATHEK}:5800
@@ -40,6 +39,5 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     tmpfs:
-      - /run
       - /tmp
       - /var/cache
