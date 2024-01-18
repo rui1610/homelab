@@ -18,9 +18,7 @@ services:
       - type: volume
         source: $HOME/.mediathek3
         target: /root/MediathekView:rw
-      - type: volume
-        source: vol_mediathek_prod
-        target: /config:rw
+      - /tmp/mediathek_config:/config:rw
 
     ports:
       - ${PORT_MEDIATHEK}:5800
@@ -28,3 +26,4 @@ services:
       - TZ="${TIMEZONE}"
       - PUID=${PUID}
       - PGID=${PGID}
+      - KEEP_APP_RUNNING=1
