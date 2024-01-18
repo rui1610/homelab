@@ -27,3 +27,6 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - KEEP_APP_RUNNING=1
+
+    tmpfs:
+      - /var/cache
