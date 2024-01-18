@@ -28,9 +28,7 @@ services:
         target: /output:rw
       - type: volume
         source: vol_mediathek_prod
-        target: /config
-        volume:
-          nocopy: true
+        target: /config:rw
 
     ports:
       - ${PORT_MEDIATHEK}:5800
