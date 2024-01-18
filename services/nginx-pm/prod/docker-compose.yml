@@ -20,7 +20,6 @@ services:
   nginxproxymanager:
     image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
-    name: nginxproxymanager
     ports:
       - '${PORT_NGINX_80}:80'
       - '${PORT_NGINX_81}:81'
