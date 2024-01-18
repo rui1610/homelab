@@ -17,7 +17,7 @@ services:
     volumes:
       - type: volume
         source: vol_media_tv
-        target: /media
+        target: /root/MediathekView
       - /tmp/mediathek_config:/config:rw
 
     ports:
