@@ -25,9 +25,7 @@ services:
       - type: volume
         source: vol_media_tv
         target: /output
-      - type: volume
-        source: vol_tvhgo
-        target: /tvhgo
+
 
     ports:
       - ${PORT_TVHGO}:8080
