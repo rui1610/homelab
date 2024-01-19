@@ -1,0 +1,41 @@
+version: '3.8'
+
+volumes:
+  vol_tvhgo:
+    driver: local
+    name: vol_tvhgo
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/tvhgo"
+  vol_media_tv:
+    driver: local
+    name: vol_media_tv
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_TVRECORDINGS}/tv"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+services:
+  tvhgo:
+    image: ghcr.io/davidborzek/tvhgo:latest
+    container_name: tvhgo
+    hostname: tvhgo
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: vol_media_tv
+        target: /output
+      - type: volume
+        source: vol_tvhgo
+        target: /tvhgo
+
+    ports:
+      - ${PORT_MEDIATHEK}:5800
+    environment:
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TVHGO_TVHEADEND_HOST=192.168.178.10:9981
+
+    tmpfs:
+      - /var/cache
