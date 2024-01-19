@@ -30,7 +30,7 @@ services:
         target: /tvhgo
 
     ports:
-      - ${PORT_MEDIATHEK}:5800
+      - ${PORT_TVHGO}:8080
     environment:
       - TZ="${TIMEZONE}"
       - PUID=${PUID}
