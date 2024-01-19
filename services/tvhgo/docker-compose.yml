@@ -33,7 +33,7 @@ services:
       - TZ="${TIMEZONE}"
       - PUID=${PUID}
       - PGID=${PGID}
-      - TVHGO_TVHEADEND_HOST=192.168.178.10:9981
+      - TVHGO_TVHEADEND_HOST=192.168.178.10
 
     tmpfs:
       - /var/cache
