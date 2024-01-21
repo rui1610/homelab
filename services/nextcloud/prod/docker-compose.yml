@@ -7,7 +7,7 @@ volumes:
     name: vol_nextcloud_prod
     driver_opts:
       type: "nfs"
-      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      o: "addr=${NAS_IP_ADDRESS},async,nolock,rw,soft,nfsvers=4"
       device: ":${NFS_PATH_DOCKER_VOLUMES}/nextcloud/files"
 
   vol_nextcloud_db_prod:
@@ -15,7 +15,7 @@ volumes:
     name: vol_nextcloud_db_prod
     driver_opts:
       type: "nfs"
-      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      o: "addr=${NAS_IP_ADDRESS},async,nolock,rw,soft,nfsvers=4"
       device: ":${NFS_PATH_DOCKER_VOLUMES}/nextcloud/db"
 
 services:
