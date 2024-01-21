@@ -32,6 +32,10 @@ services:
       - MYSQL_PASSWORD=${DEFAULT_PASSWORD}
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
+
 
   app:
     image: nextcloud:latest
@@ -49,3 +53,6 @@ services:
       - MYSQL_DATABASE=nextcloud
       - MYSQL_USER=nextcloud
       - MYSQL_HOST=db
+      - TZ="${TIMEZONE}"
+      - PUID=${PUID}
+      - PGID=${PGID}
