@@ -21,6 +21,8 @@ volumes:
 services:
   db:
     image: mariadb:10.6
+    container_name: nextcloud_db
+    hostname: nextcloud_db
     restart: always
     command: --transaction-isolation=READ-COMMITTED --log-bin=binlog --binlog-format=ROW
     volumes:
@@ -32,7 +34,9 @@ services:
       - MYSQL_USER=nextcloud
 
   app:
-    image: nextcloud
+    image: nextcloud:latest
+    container_name: nextcloud_prod
+    hostname: nextcloud_prod
     restart: always
     ports:
       - ${PORT_NEXTCLOUD}:80
