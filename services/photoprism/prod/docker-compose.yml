@@ -26,6 +26,39 @@ version: '3.5'
 # All commands may have to be prefixed with "sudo" when not running as root.
 # This will point the home directory shortcut ~ to /root in volume mounts.
 
+volumes:
+  vol_media_pictures_sorted:
+    driver: local
+    name: vol_media_pictures_sorted
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_PICTURES}/sortiert"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+
+  vol_media_pictures_import:
+    driver: local
+    name: vol_media_pictures_import
+    driver_opts:
+      type: cifs
+      device: "${HOST_PATH_PICTURES}"
+      o: "username=${NAS_USERNAME},password=${NAS_PASSWORD},uid=${PUID},gid=${PGID}"
+
+  vol_photoprism_storage:
+    driver: local
+    name: vol_photoprism_storage
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/photoprism/storage"
+
+  vol_photoprism_db:
+    driver: local
+    name: vol_photoprism_db
+    driver_opts:
+      type: "nfs"
+      o: "addr=${NAS_IP_ADDRESS},nolock,rw,soft,nfsvers=4"
+      device: ":${NFS_PATH_DOCKER_VOLUMES}/photoprism/db"
+
 services:
   photoprism:
     ## Use photoprism/photoprism:preview for testing preview builds:
@@ -45,6 +78,8 @@ services:
       ## on the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
       - "2342:2342"
     environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
       PHOTOPRISM_ADMIN_USER: "admin"                 # admin login username
       PHOTOPRISM_ADMIN_PASSWORD: "${DEFAULT_PASSWORD}"          # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
@@ -65,7 +100,7 @@ services:
       PHOTOPRISM_DISABLE_VECTORS: "false"            # disables vector graphics support
       PHOTOPRISM_DISABLE_RAW: "false"                # disables indexing and conversion of RAW images
       PHOTOPRISM_RAW_PRESETS: "false"                # enables applying user presets when converting RAW images (reduces performance)
-      PHOTOPRISM_JPEG_QUALITY: 85                    # a higher value increases the quality and file size of JPEG images and thumbnails (25-100)
+      PHOTOPRISM_JPEG_QUALITY: 100                   # a higher value increases the quality and file size of JPEG images and thumbnails (25-100)
       PHOTOPRISM_DETECT_NSFW: "false"                # automatically flags photos as private that MAY be offensive (requires TensorFlow)
       PHOTOPRISM_UPLOAD_NSFW: "true"                 # allows uploads that MAY be offensive (no effect without TensorFlow)
       # PHOTOPRISM_DATABASE_DRIVER: "sqlite"         # SQLite is an embedded database that doesn't require a server
@@ -75,8 +110,8 @@ services:
       PHOTOPRISM_DATABASE_USER: "photoprism"         # MariaDB or MySQL database user name
       PHOTOPRISM_DATABASE_PASSWORD: "${DEFAULT_PASSWORD}"       # MariaDB or MySQL database user password
       PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
-      PHOTOPRISM_SITE_DESCRIPTION: ""                # meta site description
-      PHOTOPRISM_SITE_AUTHOR: ""                     # meta site author
+      PHOTOPRISM_SITE_DESCRIPTION: "Pictures"                # meta site description
+      PHOTOPRISM_SITE_AUTHOR: "${AUTHOR}"            # meta site author
       ## Video Transcoding (https://docs.photoprism.app/getting-started/advanced/transcoding/):
       # PHOTOPRISM_FFMPEG_ENCODER: "software"        # H.264/AVC encoder (software, intel, nvidia, apple, raspberry, or vaapi)
       # PHOTOPRISM_FFMPEG_SIZE: "1920"               # video size limit in pixels (720-7680) (default: 3840)
@@ -103,10 +138,10 @@ services:
     ## Storage Folders: "~" is a shortcut for your home directory, "." for the current directory
     volumes:
       # "/host/folder:/photoprism/folder"                # Example
-      - "~/Pictures:/photoprism/originals"               # Original media files (DO NOT REMOVE)
+      - "vol_media_pictures_sorted:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
-      # - "~/Import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
-      - "./storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
+      - "vol_media_pictures_to_sort:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
+      - "vol_photoprism_storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
   ## Database Server (recommended)
   ## see https://docs.photoprism.app/getting-started/faq/#should-i-use-sqlite-mariadb-or-mysql
@@ -122,7 +157,7 @@ services:
     command: --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
     ## Never store database files on an unreliable device such as a USB flash drive, an SD card, or a shared network folder:
     volumes:
-      - "./database:/var/lib/mysql" # DO NOT REMOVE
+      - "vol_photoprism_db:/var/lib/mysql" # DO NOT REMOVE
     environment:
       MARIADB_AUTO_UPGRADE: "1"
       MARIADB_INITDB_SKIP_TZINFO: "1"
@@ -130,7 +165,8 @@ services:
       MARIADB_USER: "photoprism"
       MARIADB_PASSWORD: "${DEFAULT_PASSWORD}"
       MARIADB_ROOT_PASSWORD: "${DEFAULT_PASSWORD}"
-
+      PUID: "${PUID}"
+      PGID: "${PGID}"
   ## Watchtower upgrades services automatically (optional)
   ## see https://docs.photoprism.app/getting-started/updates/#watchtower
   ## activate via "COMPOSE_PROFILES=update docker compose up -d"
