@@ -78,8 +78,8 @@ services:
       ## on the left-hand side and keep the container port, e.g. "80:2342" (for HTTP) or "443:2342 (for HTTPS):
       - "2342:2342"
     environment:
-      PUID: "${PUID}"
-      PGID: "${PGID}"
+      #PUID: "${PUID}"
+      #PGID: "${PGID}"
       PHOTOPRISM_ADMIN_USER: "admin"                 # admin login username
       PHOTOPRISM_ADMIN_PASSWORD: "${DEFAULT_PASSWORD}"          # initial admin password (8-72 characters)
       PHOTOPRISM_AUTH_MODE: "password"               # authentication mode (public, password)
@@ -165,8 +165,8 @@ services:
       MARIADB_USER: "photoprism"
       MARIADB_PASSWORD: "${DEFAULT_PASSWORD}"
       MARIADB_ROOT_PASSWORD: "${DEFAULT_PASSWORD}"
-      PUID: "${PUID}"
-      PGID: "${PGID}"
+      #PUID: "${PUID}"
+      #PGID: "${PGID}"
   ## Watchtower upgrades services automatically (optional)
   ## see https://docs.photoprism.app/getting-started/updates/#watchtower
   ## activate via "COMPOSE_PROFILES=update docker compose up -d"
