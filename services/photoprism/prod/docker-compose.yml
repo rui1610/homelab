@@ -140,7 +140,7 @@ services:
       # "/host/folder:/photoprism/folder"                # Example
       - "vol_media_pictures_sorted:/photoprism/originals"               # Original media files (DO NOT REMOVE)
       # - "/example/family:/photoprism/originals/family" # *Additional* media folders can be mounted like this
-      - "vol_media_pictures_to_sort:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
+      - "vol_media_pictures_import:/photoprism/import"                  # *Optional* base folder from which files can be imported to originals
       - "vol_photoprism_storage:/photoprism/storage"                  # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
 
   ## Database Server (recommended)
