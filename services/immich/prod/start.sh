@@ -1,2 +1,2 @@
-docker compose --env-file "my.env" build
-docker compose --env-file "my.env" up -d
+docker compose build
+docker compose up -d
