@@ -6,6 +6,5 @@ secret.auto.tfvars
 terraform.tfvars
 
 # Generic local files
-.env
 .embeddings.db
 my_credentials.*
