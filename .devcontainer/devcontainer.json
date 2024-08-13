@@ -1,24 +1,23 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/javascript-node
 {
-	"name": "Terraform provider for SAP BTP - Default",
-	"image": "mcr.microsoft.com/devcontainers/base:debian",
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	"features": {
-		"ghcr.io/devcontainers/features/terraform:1": {},
-		"ghcr.io/devcontainers/features/github-cli:1": {}
+	"name": "ai-sandbox",
+	"build": {
+		// Linking to the Dockerfile that has all the BTP development tools
+		"dockerfile": "../config/Dockerfile",
+		"context": "../"
 	},
 	"customizations": {
 		"vscode": {
-			"settings": {},
+			"settings": {
+				"python.defaultInterpreterPath": "/usr/local/bin/python3",
+				"python.formatting.provider": "black"
+			},
 			"extensions": [
-				"HashiCorp.terraform"
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"Github.copilot"
 			]
-		},
-		"codespaces": {}
-	},
-	"hostRequirements": {
-		"memory": "4gb"
-	},
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-	"remoteUser": "vscode"
-}
+		}
+	}
+}	
