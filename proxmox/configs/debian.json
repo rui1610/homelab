@@ -1,0 +1,16 @@
+{
+    "proxmox_url": "https://192.168.178.2:8006/api2/json",
+    "vm_name":"test-vm",
+    "target_node":"heimbox",
+    "qemu_os": "other",
+    "os_type": "l26",
+    "iso": "local:iso/debian-12.4.0-amd64-netinst.iso",
+    "cores": 2,
+    "sockets": 1,
+    "memory": 8192,
+    "disk_type":"virtio",
+    "disk_storage": "local-lvm",
+    "disk_size": "64G",
+    "network_model": "virtio",
+    "network_bridge": "vmbr0"
+}

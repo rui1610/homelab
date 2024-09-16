@@ -4,7 +4,11 @@ terraform.tfstate*
 *.log
 secret.auto.tfvars
 terraform.tfvars
+.terraform-lock.hcl
+.terraform
 
 # Generic local files
 .embeddings.db
 my_credentials.*
+secrets.env
+

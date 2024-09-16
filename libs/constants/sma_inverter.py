@@ -1,0 +1,88 @@
+CHANNELS_TO_USE = [
+    {
+        "channel": "30849",
+        "device": "Batterie",
+        "name": "Temperatur",
+        "unit": "C",
+    },
+    {
+        "channel": "30847",
+        "device": "Batterie",
+        "name": "Kapazität aktuell",
+        "unit": "%",
+    },
+    {
+        "channel": "32341",
+        "device": "Netz",
+        "name": "Einspeisung aktuell",
+        "unit": "W",
+    },
+    {
+        "channel": "30845",
+        "device": "Batterie",
+        "name": "Ladezustand aktuell",
+        "unit": "%",
+    },
+    {"channel": "31401", "device": "Batterie", "name": "Entladung gesamt", "unit": "W"},
+    {"channel": "31397", "device": "Batterie", "name": "Ladung gesamt", "unit": "W"},
+    {
+        "channel": "30773",
+        "device": "PV vorne",
+        "name": "Leistung DC String 1",
+        "unit": "W",
+    },
+    {
+        "channel": "30961",
+        "device": "PV vorne",
+        "name": "Leistung DC String 2",
+        "unit": "W",
+    },
+    {
+        "channel": "30529",
+        "device": "PV vorne",
+        "name": "Ertrag gesamt",
+        "unit": "W",
+    },
+    {
+        "channel": "30953",
+        "device": "SMA Wechselrichter",
+        "name": "Temperatur",
+        "unit": "C",
+    },
+    {
+        "channel": "30775",
+        "device": "PV vorne",
+        "name": "Leistung aktuell",
+        "unit": "W",
+    },
+    {
+        "channel": "30867",
+        "device": "Netz",
+        "name": "Leistung Einspeisung",
+        "unit": "W",
+    },
+    {
+        "channel": "30865",
+        "device": "Netz",
+        "name": "Leistung Bezug",
+        "unit": "W",
+    },
+    {
+        "channel": "31395",
+        "device": "Batterie",
+        "name": "Entladung aktuell",
+        "unit": "W",
+    },
+    {
+        "channel": "31393",
+        "device": "Batterie aktuell",
+        "name": "Ladung",
+        "unit": "W",
+    },
+    {
+        "channel": "30535",
+        "device": "PV vorne",
+        "name": "Erzeugung heute",
+        "unit": "W",
+    },
+]
