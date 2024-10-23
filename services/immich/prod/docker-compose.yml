@@ -103,3 +103,15 @@ services:
         'wal_compression=on',
       ]
     restart: always
+
+  adminer:
+    image: dockette/adminer
+    ports:
+      - 8081:80  
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    environment:
+       PGADMIN_DEFAULT_EMAIL: "pgadmin@codepruner.com"
+       PGADMIN_DEFAULT_PASSWORD: "${DB_PASSWORD}"
