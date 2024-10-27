@@ -3,9 +3,9 @@ services:
     restart: always
     image: postgres:11-alpine
     environment:
-      - POSTGRES_USER=/run/secrets/my_credentials/DEFAULT_USER
-      - POSTGRES_PASSWORD=/run/secrets/my_credentials/DEFAULT_PASSWORD
-      - SECRET_KEY=/run/secrets/my_credentials/SECRET_KEY_TANDOOR
+      - POSTGRES_USER=/run/secrets/DEFAULT_USER
+      - POSTGRES_PASSWORD=/run/secrets/DEFAULT_PASSWORD
+      - SECRET_KEY=/run/secrets/SECRET_KEY_TANDOOR
 
     volumes:
       - ../../../tandoor/database:/var/lib/postgresql/data
