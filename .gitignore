@@ -11,5 +11,3 @@ terraform.tfvars
 .embeddings.db
 my_credentials.*
 secrets.env
-
-

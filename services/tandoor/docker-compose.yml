@@ -2,10 +2,17 @@ services:
   db_recipes:
     restart: always
     image: postgres:11-alpine
+    environment:
+      - POSTGRES_USER=/run/secrets/my_credentials/DEFAULT_USER
+      - POSTGRES_PASSWORD=/run/secrets/my_credentials/DEFAULT_PASSWORD
+      - SECRET_KEY=/run/secrets/my_credentials/SECRET_KEY_TANDOOR
+
     volumes:
       - ../../../tandoor/database:/var/lib/postgresql/data
     env_file:
       - ./.env
+    secrets:
+       - my_credentials
 
   web_recipes:
     image: vabene1111/recipes
@@ -36,3 +43,7 @@ services:
 volumes:
   nginx_config:
   staticfiles:
+
+secrets:
+   my_credentials:
+     file: ../../config/my_credentials.env
