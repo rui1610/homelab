@@ -4,7 +4,7 @@ services:
     image: postgres:11-alpine
     volumes:
       - ./postgresql:/var/lib/postgresql/data
-      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+      - ../../../tandoor_database:/var/lib/postgresql/data
     env_file:
       - ./.env
 
